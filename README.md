@@ -47,6 +47,7 @@ Organizations in the energy sector require a robust, auditable API to store and 
   - Optional `queryTime` parameter on queries (UTC).
   - API reconstructs the time series as it would have been after applying only events with `arrivalTimestampUtc` <= `queryTime`.
   - If `queryTime` is omitted, the latest state is returned.
+  - a query never returns null. null values are returned a 0
 
 - **Default and Null Handling**
   - If no data exists for a day, all 96 values default to 0.00 MW with the appropriate `dateTimeUtc`.
