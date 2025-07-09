@@ -20,8 +20,8 @@ Organizations in the energy sector require a robust, auditable API to store and 
 
 ## Use Cases
 
-- Ingest a full or partial day’s quarter-hour readings for a specific identifier and category, with each value explicitly timestamped in UTC and stored as an immutable event.
-- Retrieve all 96 quarter-hour values (each with its own `dateTimeUtc`) for a given identifier, category, and day, as of a specific queryTime (for audit or reporting), by replaying events up to that time.
+- Ingest a full or partial day’s quarter-hour readings for a category, with each value explicitly timestamped in UTC and stored as an immutable event.
+- Retrieve all 96 quarter-hour values (each with its own `dateTimeUtc`) for a given category, and timespan, as of a specific queryTime (for audit or reporting), by replaying events up to that time.
 - Update only a subset of quarter-hour values for a day; each update is a new event and does not overwrite previous data.
 - Handle explicit nulls in updates to indicate "no change" for those intervals.
 - Aggregate quarter-hour data (e.g., sum, average) as of a given queryTime for reporting or operational decisions.
@@ -65,7 +65,7 @@ Organizations in the energy sector require a robust, auditable API to store and 
 - All quarter-hour values are decimals in MW; precision is at least two decimal places.
 - Each value object contains a `value` (decimal or null) and `dateTimeUtc` (ISO 8601, UTC).
 - Each day consists of exactly 96 quarter-hour intervals (00:00 to 23:45 UTC). 1 day has 92 and one 100 quarter-hour intervals
-- Identifiers and category names are unique and consistent.
+- category names are unique and consistent.
 - All time fields are UTC (ISO 8601 format with "Z" suffix).
 - Time zones and daylight saving are handled upstream or via metadata.
 - Storage backend can efficiently handle high-frequency, append-only event data.
@@ -75,7 +75,6 @@ Organizations in the energy sector require a robust, auditable API to store and 
 - **Update Request Example (Event):**
   ```json
   {
-    "id": "ASSET-123",
     "category": "consumption",
     "values": [
       { "value": 1.25, "dateTimeUtc": "2025-07-09T06:00:00Z" },
@@ -93,7 +92,6 @@ Organizations in the energy sector require a robust, auditable API to store and 
 - **Query Request Example:**
   ```json
   {
-    "id": "ASSET-123",
     "category": "consumption",
     "date": "2025-07-09",
     "queryTime": "2025-07-09T10:30:00Z"
@@ -104,7 +102,6 @@ Organizations in the energy sector require a robust, auditable API to store and 
 - **Query Response Example:**
   ```json
   {
-    "id": "ASSET-123",
     "category": "consumption",
     "date": "2025-07-09",
     "values": [
