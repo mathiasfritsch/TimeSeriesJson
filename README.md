@@ -21,7 +21,7 @@ Organizations in the energy sector require a robust, auditable API to store and 
 ## Use Cases
 
 - Ingest a full or partial day’s quarter-hour readings for a category, with each value explicitly timestamped in UTC and stored as an immutable event.
-- Retrieve all 96 quarter-hour values (each with its own `dateTimeUtc`) for a given category, and timespan, as of a specific queryTime (for audit or reporting), by replaying events up to that time.
+- Retrieve all quarter-hour values (each with its own `dateTimeUtc`) for a given category, and timespan, as of a specific queryTime (for audit or reporting), by replaying events up to that time.
 - Update only a subset of quarter-hour values for a day; each update is a new event and does not overwrite previous data.
 - Handle explicit nulls in updates to indicate "no change" for those intervals.
 - Aggregate quarter-hour data (e.g., sum, average) as of a given queryTime for reporting or operational decisions.
@@ -78,6 +78,8 @@ Organizations in the energy sector require a robust, auditable API to store and 
   ```json
   {
     "category": "consumption",
+  "startDateTimeUtc":  "2025-07-08T22:00:00Z",
+   "endDateTimeUtc":  "2025-07-09T22:00:00Z",
     "values": [
       { "value": 1.25, "dateTimeUtc": "2025-07-09T06:00:00Z" },
       { "value": null, "dateTimeUtc": "2025-07-09T06:15:00Z" },
@@ -95,7 +97,8 @@ Organizations in the energy sector require a robust, auditable API to store and 
   ```json
   {
     "category": "consumption",
-    "date": "2025-07-09",
+    "startDateTimeUtc":  "2025-07-08T22:00:00Z",
+   "endDateTimeUtc":  "2025-07-09T22:00:00Z",
     "queryTime": "2025-07-09T10:30:00Z"
   }
   ```
